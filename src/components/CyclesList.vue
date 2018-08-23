@@ -1,13 +1,31 @@
 <template>
-  <h1 class="alert alert-primary">Hi cycles list</h1>
+<div>
+   <div class="card text-center">
+    <ul class="list-group list-group-flush">
+      <li v-for="item in list" :key="item.id" class="list-group-item">
+        {{ item.name }}
+      </li>
+    </ul>  
+   </div>
+</div>
 </template>
 
 <script>
 export default {
-  name: 'CyclesList'
+   name: "CyclesList",
+   data() {
+      return {
+         list: [
+         { name: "Janeiro" },
+         { name: "Fevereiro" },
+         { name: "Março" },
+         { name: "Abril" }
+         ],
+         name: "arroz"
+      }
+   }
 }
 </script>
 
 <style scoped>
-
 </style>  

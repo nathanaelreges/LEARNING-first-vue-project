@@ -1,5 +1,11 @@
 <template>
-  <CyclesList />
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+        <CyclesList />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
