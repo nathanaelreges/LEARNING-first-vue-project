@@ -1,17 +1,15 @@
 <template>
-  <div class="Cycles">
-    Welcome to Billing Cycles App
-  </div>
+  <CyclesList />
 </template>
 
 <script>
 // @ is an alias to /src
-//import HelloWorld from '@/components/HelloWorld.vue'
-/*
+import CyclesList from '@/components/CyclesList.vue'
+
 export default {
-  name: 'home',
+  name: 'Cycles',
   components: {
-    HelloWorld
+    CyclesList
   }
-}*/
+}
 </script>
