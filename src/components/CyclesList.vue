@@ -6,13 +6,32 @@
       </div>
       <div class="card-body">
          <ul class="list-group list-group-flush">
-            <li v-for="item in list" :key="item.id" class="list-group-item">
-               {{ item.name }}
-               <button class="btn btn-outline-secondary float-right btn-sm"
-                  @click="removeCycle(item)"
-               >
-                  <i class="fa fa-trash-o "></i>
-               </button>
+            <li v-for="item in list" :key="item.id" class="list-group-item list__item">
+               <div class="list__content">
+                  <textarea v-if="editingId === item.id" rows="1"
+                     class="list__edit-content">
+                  </textarea>
+                  <span v-else >
+                     {{ item.name }}   
+                  </span>
+               </div>
+               <div class="list__buttons">
+                  <button v-if="editingId === item.id" class="btn btn-outline-secondary btn-sm ml-2"
+                     @click="confirmEditCycle(item)"
+                  >
+                     <i class="fa fa-check "></i>
+                  </button>
+                  <button v-else class="btn btn-outline-secondary btn-sm ml-2"
+                     @click="editCycle(item)"
+                  >
+                     <i class="fa fa-edit"></i>
+                  </button>
+                  <button class="btn btn-outline-secondary btn-sm ml-2"
+                     @click="removeCycle(item)"
+                  >
+                     <i class="fa fa-trash-o "></i>
+                  </button>
+               </div>
             </li>
          </ul>  
       </div>
@@ -30,6 +49,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 export default {
    name: "CyclesList",
    data() {
@@ -41,6 +61,7 @@ export default {
             { name: "Março", id: 3},
             { name: "Abril", id: 4}
          ],
+         editingId: undefined,
          lastId: 10 
       }
    },
@@ -51,6 +72,12 @@ export default {
       },
       removeCycle (item) {
          this.list.splice(this.list.indexOf(item), 1)
+      },
+      editCycle (item) {
+         this.editingId = item.id
+      },
+      confirmEditCycle (item) {
+         this.editingId = undefined
       }
    }
 }
@@ -62,6 +89,27 @@ export default {
    border: none;
    text-align: left;
    padding: 5px;
+}
+
+.btn {
+   box-shadow: none;
+
+}
+
+
+.list__item {
+   display: flex;
+   align-items: center;
+}
+
+.list__content {
+   flex-grow: 1;
+   display: flex;;
+}
+.list__edit-content {
+   resize: none;
+   border: none;
+   flex-grow: 1;
 }
 
 </style>  
