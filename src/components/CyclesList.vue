@@ -7,10 +7,9 @@
       <div class="card-body">
          <ul class="list-group list-group-flush">
             <li v-for="item in list" :key="item.id" class="list-group-item list__item">
-               <div class="list__content">
-                  <textarea v-if="editingId === item.id" rows="1"
+               <div ref="editContainer" class="list__content">
+                  <input type="text" v-model="item.name" v-if="editingId === item.id" rows="1"
                      class="list__edit-content">
-                  </textarea>
                   <span v-else >
                      {{ item.name }}   
                   </span>
@@ -55,6 +54,7 @@ export default {
    data() {
       return {
          newCycleName: '',
+         editCycleName: '',
          list: [
             { name: "Janeiro", id: 1},
             { name: "Fevereiro", id: 2},
@@ -62,7 +62,8 @@ export default {
             { name: "Abril", id: 4}
          ],
          editingId: undefined,
-         lastId: 10 
+         lastId: 10 ,
+         focusOn: undefined
       }
    },
    methods: {
@@ -75,9 +76,17 @@ export default {
       },
       editCycle (item) {
          this.editingId = item.id
+         const index = this.list.indexOf(item)
+         this.focusOn = index
       },
       confirmEditCycle (item) {
          this.editingId = undefined
+      },
+   }, 
+   updated () {
+      if(this.focusOn !== undefined) {
+         this.$refs.editContainer[this.focusOn].firstElementChild.focus()
+         this.focusOn = undefined
       }
    }
 }
@@ -91,10 +100,6 @@ export default {
    padding: 5px;
 }
 
-.btn {
-   box-shadow: none;
-
-}
 
 
 .list__item {
@@ -106,10 +111,20 @@ export default {
    flex-grow: 1;
    display: flex;;
 }
+
 .list__edit-content {
    resize: none;
    border: none;
    flex-grow: 1;
+   outline: none;
+   margin-bottom: -1px;
+   border-bottom: 1px solid black;
 }
+
+.list__edit-content:focus {
+   border-color: skyblue;
+}
+
+
 
 </style>  
