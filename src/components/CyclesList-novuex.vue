@@ -2,8 +2,7 @@
 <div>
    <div class="card shadow-sm">
       <div class="card-header text-center">
-         <h4>Cycles</h4>
-         {{ tst }} 
+         <h4>Cycles</h4> 
       </div>
       <div class="card-body">
          <ul class="list-group list-group-flush">
@@ -50,9 +49,6 @@
 
 <script>
 import Vue from 'vue'
-import { mapState } from 'vuex';
-
-
 export default {
    name: "CyclesList",
    data() {
@@ -67,11 +63,8 @@ export default {
          ],
          editingId: undefined,
          lastId: 10 ,
-         focusOnEdit: false,
+         focusOnEdit: false
       }
-   },
-   computed: {
-      ...mapState('cycles', ['tst']),
    },
    methods: {
       addCycle () {
