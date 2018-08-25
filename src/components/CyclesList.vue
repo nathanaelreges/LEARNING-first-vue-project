@@ -7,9 +7,9 @@
       <div class="card-body">
          <ul class="list-group list-group-flush">
             <li v-for="item in list" :key="item.id" class="list-group-item list__item">
-               <div ref="editContainer" class="list__content">
-                  <input type="text" v-model="item.name" v-if="editingId === item.id" rows="1"
-                     class="list__edit-content">
+               <div ref="editContainers" class="list__content">
+                  <input type="text" v-model="editCycleName" v-if="editingId === item.id" rows="1"
+                     class="list__edit-content" ref="editName">
                   <span v-else >
                      {{ item.name }}   
                   </span>
@@ -63,7 +63,7 @@ export default {
          ],
          editingId: undefined,
          lastId: 10 ,
-         focusOn: undefined
+         focusOnEdit: false
       }
    },
    methods: {
@@ -76,17 +76,19 @@ export default {
       },
       editCycle (item) {
          this.editingId = item.id
-         const index = this.list.indexOf(item)
-         this.focusOn = index
+         this.editCycleName = item.name   
+         this.focusOnEdit = true
       },
       confirmEditCycle (item) {
+         Vue.set(item, 'name', this.editCycleName)
+         this.editCycleName = ''
          this.editingId = undefined
       },
    }, 
    updated () {
-      if(this.focusOn !== undefined) {
-         this.$refs.editContainer[this.focusOn].firstElementChild.focus()
-         this.focusOn = undefined
+      if(this.focusOnEdit) {
+         this.$refs.editName[0].focus()
+         this.focusOnEdit = false
       }
    }
 }
@@ -122,7 +124,8 @@ export default {
 }
 
 .list__edit-content:focus {
-   border-color: skyblue;
+   margin-bottom: -2px;
+   border-bottom: 2px solid skyblue;
 }
 
 
