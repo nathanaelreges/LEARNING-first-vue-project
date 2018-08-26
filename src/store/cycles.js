@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 export default {
    namespaced: true,
    state: {
@@ -19,6 +21,13 @@ export default {
    mutations: {
       addCycle (state, payload) {
          state.list.push({name: payload, id: ++state.lastId})
+      },
+      removeCycle (state, item) {
+         state.list.splice(state.list.indexOf(item), 1)
+      },
+      updateCycle (state, {item, newName}) {
+         console.log(newName)
+         Vue.set(item, 'name', newName)
       },
    },
 };

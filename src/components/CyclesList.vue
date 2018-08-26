@@ -9,7 +9,7 @@
             <li v-for="item in list" :key="item.id" class="list-group-item list__item">
                <div ref="editContainers" class="list__content">
                   <input type="text" v-model="editCycleName" v-if="editingId === item.id" rows="1"
-                     class="list__edit-content" ref="editName">
+                     @keydown.enter="confirmEditCycle(item)" class="list__edit-content" ref="editName">
                   <span v-else >
                      {{ item.name }}   
                   </span>
@@ -36,7 +36,7 @@
       </div>
       <div class="card-footer">
          <div class="input-group">
-            <input v-model="newCycleName" type="text" class="form-control" 
+            <input v-model="newCycleName" type="text" class="form-control" @keydown.enter="_addCycle"
                placeholder="Enter a new Cycle" aria-label="Enter a new Cycle" aria-describedby="basic-addon2">
             <div class="input-group-append">
                <button class="btn btn-primary" type="button" @click="_addCycle">Add</button>
@@ -50,11 +50,6 @@
 <script>
 import Vue from 'vue'
 import { mapState, mapMutations } from 'vuex';
-
-
-const store = {
-   
-}
 
 export default {
    name: "CyclesList",
@@ -75,20 +70,17 @@ export default {
          this.addCycle(this.newCycleName)
          this.newCycleName = ''
       },
-      removeCycle (item) {
-         this.list.splice(this.list.indexOf(item), 1)
-      },
       editCycle (item) {
          this.editingId = item.id
          this.editCycleName = item.name   
          this.focusOnEdit = true
       },
       confirmEditCycle (item) {
-         Vue.set(item, 'name', this.editCycleName)
+         this.updateCycle({item, newName: this.editCycleName})
          this.editCycleName = ''
          this.editingId = undefined
       },
-      ...mapMutations('cycles', ['addCycle']),
+      ...mapMutations('cycles', ['addCycle', 'removeCycle', 'updateCycle']),
    },
    updated () {
       if(this.focusOnEdit) {
