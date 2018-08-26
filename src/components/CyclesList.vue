@@ -7,15 +7,14 @@
       <ul class="list-group list-group-flush">
          <li v-for="item in list" :key="item.id" class="list-group-item list__item">
             <div ref="editContainers" class="list__content">
-               <input type="text" v-model="editCycleName" v-if="editingId === item.id" rows="1"
-                  @keydown.enter="confirmEditCycle(item)" class="list__edit-content" ref="editName">
-               <span v-else >
-                  {{ item.name }}   
-               </span>
+               <span-or-input :value="item.name" :isEditMode="editingId === item.id"
+                  inputClassName="list__edit-content" @onInput="updateEditCycle"
+               >
+               </span-or-input>
             </div>
             <div class="list__buttons">
                <editConfirmBtn :isEditMode="editingId === item.id"
-                  @onEdit="editCycle(item)" @onSave="confirmEditCycle(item)">
+                  @onEdit="initEditCycle(item)" @onSave="confirmEditCycle(item)">
                </editConfirmBtn>
                <button class="btn btn-outline-secondary btn-sm ml-2"
                   @click="removeCycle(item)">
@@ -43,12 +42,14 @@ import { mapState, mapMutations } from 'vuex';
 
 import card from './card.vue'
 import editConfirmBtn from './editConfirmBtn.vue'
+import spanOrInput from './spanOrInput.vue'
 
 export default {
    name: "CyclesList",
    components : {
       card,
-      editConfirmBtn
+      editConfirmBtn,
+      spanOrInput
    },
    data() {
       return {
@@ -69,10 +70,13 @@ export default {
          this.addCycle(newName)
          this.newCycleName = ''
       },
-      editCycle (item) {
+      initEditCycle (item) {
          this.editingId = item.id
          this.editCycleName = item.name   
          this.focusOnEdit = true
+      },
+      updateEditCycle (value) {
+         this.editCycleName = value
       },
       confirmEditCycle (item) {
          const newName = this.editCycleName.trim()
@@ -87,10 +91,10 @@ export default {
       ...mapMutations('cycles', ['addCycle', 'removeCycle', 'updateCycle']),
    },
    updated () {
-      if(this.focusOnEdit) {
+      /*if(this.focusOnEdit) {
          this.$refs.editName[0].focus()
          this.focusOnEdit = false
-      }
+      }*/
    }
 }
 </script>
