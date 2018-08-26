@@ -1,40 +1,39 @@
 <template>
-<div>
-   <div class="card shadow-sm">
-      <div class="card-header text-center">
+   <card>
+      <template slot="header">
          <h4>Cycles</h4>
-      </div>
-      <div class="card-body">
-         <ul class="list-group list-group-flush">
-            <li v-for="item in list" :key="item.id" class="list-group-item list__item">
-               <div ref="editContainers" class="list__content">
-                  <input type="text" v-model="editCycleName" v-if="editingId === item.id" rows="1"
-                     @keydown.enter="confirmEditCycle(item)" class="list__edit-content" ref="editName">
-                  <span v-else >
-                     {{ item.name }}   
-                  </span>
-               </div>
-               <div class="list__buttons">
-                  <button v-if="editingId === item.id" class="btn btn-outline-secondary btn-sm ml-2"
-                     @click="confirmEditCycle(item)"
-                  >
-                     <i class="fa fa-check "></i>
-                  </button>
-                  <button v-else class="btn btn-outline-secondary btn-sm ml-2"
-                     @click="editCycle(item)"
-                  >
-                     <i class="fa fa-edit"></i>
-                  </button>
-                  <button class="btn btn-outline-secondary btn-sm ml-2"
-                     @click="removeCycle(item)"
-                  >
-                     <i class="fa fa-trash-o "></i>
-                  </button>
-               </div>
-            </li>
-         </ul>  
-      </div>
-      <div class="card-footer">
+      </template>
+      
+      <ul class="list-group list-group-flush">
+         <li v-for="item in list" :key="item.id" class="list-group-item list__item">
+            <div ref="editContainers" class="list__content">
+               <input type="text" v-model="editCycleName" v-if="editingId === item.id" rows="1"
+                  @keydown.enter="confirmEditCycle(item)" class="list__edit-content" ref="editName">
+               <span v-else >
+                  {{ item.name }}   
+               </span>
+            </div>
+            <div class="list__buttons">
+               <button v-if="editingId === item.id" class="btn btn-outline-secondary btn-sm ml-2"
+                  @click="confirmEditCycle(item)"
+               >
+                  <i class="fa fa-check "></i>
+               </button>
+               <button v-else class="btn btn-outline-secondary btn-sm ml-2"
+                  @click="editCycle(item)"
+               >
+                  <i class="fa fa-edit"></i>
+               </button>
+               <button class="btn btn-outline-secondary btn-sm ml-2"
+                  @click="removeCycle(item)"
+               >
+                  <i class="fa fa-trash-o "></i>
+               </button>
+            </div>
+         </li>
+      </ul>  
+      
+      <template slot="footer">
          <div class="input-group">
             <input v-model="newCycleName" type="text" class="form-control" @keydown.enter="_addCycle"
                placeholder="Enter a new Cycle" aria-label="Enter a new Cycle" aria-describedby="basic-addon2">
@@ -42,23 +41,26 @@
                <button class="btn btn-primary" type="button" @click="_addCycle">Add</button>
             </div>
          </div>
-      </div>
-   </div>
-</div>
+      </template>
+   </card>
 </template>
 
 <script>
 import Vue from 'vue'
 import { mapState, mapMutations } from 'vuex';
 
+import card from './card.vue'
+
 export default {
    name: "CyclesList",
+   components : {
+      card
+   },
    data() {
       return {
          newCycleName: '',
          editCycleName: '',
          editingId: undefined,
-         lastId: 10 ,
          focusOnEdit: false,
       }
    },
@@ -67,7 +69,10 @@ export default {
    },
    methods: {
       _addCycle () {
-         this.addCycle(this.newCycleName)
+         const newName = this.newCycleName.trim()
+         if(!newName){return}
+         
+         this.addCycle(newName)
          this.newCycleName = ''
       },
       editCycle (item) {
@@ -76,7 +81,12 @@ export default {
          this.focusOnEdit = true
       },
       confirmEditCycle (item) {
-         this.updateCycle({item, newName: this.editCycleName})
+         const newName = this.editCycleName.trim()
+         
+         if(newName){
+            this.updateCycle({item, newName})   
+         }
+
          this.editCycleName = ''
          this.editingId = undefined
       },
