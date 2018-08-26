@@ -3,7 +3,6 @@
    <div class="card shadow-sm">
       <div class="card-header text-center">
          <h4>Cycles</h4>
-         {{ tst }} 
       </div>
       <div class="card-body">
          <ul class="list-group list-group-flush">
@@ -40,7 +39,7 @@
             <input v-model="newCycleName" type="text" class="form-control" 
                placeholder="Enter a new Cycle" aria-label="Enter a new Cycle" aria-describedby="basic-addon2">
             <div class="input-group-append">
-               <button class="btn btn-primary" type="button" @click="addCycle">Add</button>
+               <button class="btn btn-primary" type="button" @click="_addCycle">Add</button>
             </div>
          </div>
       </div>
@@ -50,8 +49,12 @@
 
 <script>
 import Vue from 'vue'
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
+
+const store = {
+   
+}
 
 export default {
    name: "CyclesList",
@@ -59,23 +62,17 @@ export default {
       return {
          newCycleName: '',
          editCycleName: '',
-         list: [
-            { name: "Janeiro", id: 1},
-            { name: "Fevereiro", id: 2},
-            { name: "Março", id: 3},
-            { name: "Abril", id: 4}
-         ],
          editingId: undefined,
          lastId: 10 ,
          focusOnEdit: false,
       }
    },
    computed: {
-      ...mapState('cycles', ['tst']),
+      ...mapState('cycles', ['list']),
    },
    methods: {
-      addCycle () {
-         this.list.push({name: this.newCycleName, id: ++this.lastId})
+      _addCycle () {
+         this.addCycle(this.newCycleName)
          this.newCycleName = ''
       },
       removeCycle (item) {
@@ -91,7 +88,8 @@ export default {
          this.editCycleName = ''
          this.editingId = undefined
       },
-   }, 
+      ...mapMutations('cycles', ['addCycle']),
+   },
    updated () {
       if(this.focusOnEdit) {
          this.$refs.editName[0].focus()
