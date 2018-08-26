@@ -6,16 +6,17 @@
       
       <ul class="list-group list-group-flush">
          <li v-for="item in list" :key="item.id" class="list-group-item list__item">
-            <div ref="editContainers" class="list__content">
+            <div class="list__content">
                <span-or-input :value="item.name" :isEditMode="editingId === item.id"
-                  inputClassName="list__edit-content" @onInput="updateEditCycle"
+                  inputClassName="list__edit-content" spanClassName="list__span"
+                  @onInput="updateEditCycle" @onSpanClick="selectCycle(item)"
                >
                </span-or-input>
             </div>
             <div class="list__buttons">
-               <editConfirmBtn :isEditMode="editingId === item.id"
+               <edit-confirm-btn :isEditMode="editingId === item.id"
                   @onEdit="initEditCycle(item)" @onSave="confirmEditCycle(item)">
-               </editConfirmBtn>
+               </edit-confirm-btn>
                <button class="btn btn-outline-secondary btn-sm ml-2"
                   @click="removeCycle(item)">
                   <i class="fa fa-trash-o "></i>
@@ -88,14 +89,8 @@ export default {
          this.editCycleName = ''
          this.editingId = undefined
       },
-      ...mapMutations('cycles', ['addCycle', 'removeCycle', 'updateCycle']),
+      ...mapMutations('cycles', ['addCycle', 'removeCycle', 'updateCycle', 'selectCycle']),
    },
-   updated () {
-      /*if(this.focusOnEdit) {
-         this.$refs.editName[0].focus()
-         this.focusOnEdit = false
-      }*/
-   }
 }
 </script>
 
@@ -131,6 +126,10 @@ export default {
 .list__edit-content:focus {
    margin-bottom: -2px;
    border-bottom: 2px solid skyblue;
+}
+
+.list__span {
+   cursor: pointer;
 }
 
 

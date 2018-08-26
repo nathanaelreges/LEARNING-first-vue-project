@@ -9,7 +9,8 @@ export default {
          { name: "Março", id: 3},
          { name: "Abril", id: 4}
       ],
-      lastId: 10
+      lastId: 10,
+      selectedCycle: undefined,
    },
    actions: {
       saveTask({ commit }, payload) {
@@ -19,6 +20,9 @@ export default {
    getters: {
    },
    mutations: {
+      selectCycle(state, payload) {
+         state.selectedCycle = payload
+      },
       addCycle (state, payload) {
          state.list.push({name: payload, id: ++state.lastId})
       },
