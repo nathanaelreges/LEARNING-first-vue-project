@@ -26,7 +26,6 @@ export default {
          state.list.splice(state.list.indexOf(item), 1)
       },
       updateCycle (state, {item, newName}) {
-         console.log(newName)
          Vue.set(item, 'name', newName)
       },
    },

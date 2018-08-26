@@ -1,5 +1,4 @@
 <template>
-<div>
    <div class="card shadow-sm">
       <div class="card-header text-center">
          <slot name="header"></slot>
@@ -11,7 +10,6 @@
          <slot name="footer"></slot>
       </div>
    </div>
-</div>
 </template>
 
 <script>

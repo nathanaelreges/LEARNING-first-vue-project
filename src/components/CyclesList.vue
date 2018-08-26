@@ -14,19 +14,11 @@
                </span>
             </div>
             <div class="list__buttons">
-               <button v-if="editingId === item.id" class="btn btn-outline-secondary btn-sm ml-2"
-                  @click="confirmEditCycle(item)"
-               >
-                  <i class="fa fa-check "></i>
-               </button>
-               <button v-else class="btn btn-outline-secondary btn-sm ml-2"
-                  @click="editCycle(item)"
-               >
-                  <i class="fa fa-edit"></i>
-               </button>
+               <editConfirmBtn :isEditMode="editingId === item.id"
+                  @onEdit="editCycle(item)" @onSave="confirmEditCycle(item)">
+               </editConfirmBtn>
                <button class="btn btn-outline-secondary btn-sm ml-2"
-                  @click="removeCycle(item)"
-               >
+                  @click="removeCycle(item)">
                   <i class="fa fa-trash-o "></i>
                </button>
             </div>
@@ -50,11 +42,13 @@ import Vue from 'vue'
 import { mapState, mapMutations } from 'vuex';
 
 import card from './card.vue'
+import editConfirmBtn from './editConfirmBtn.vue'
 
 export default {
    name: "CyclesList",
    components : {
-      card
+      card,
+      editConfirmBtn
    },
    data() {
       return {
