@@ -17,10 +17,7 @@
                <edit-confirm-btn :isEditMode="editingId === item.id"
                   @onEdit="initEditCycle(item)" @onSave="confirmEditCycle(item)">
                </edit-confirm-btn>
-               <button class="btn btn-outline-secondary btn-sm ml-2"
-                  @click="removeCycle(item)">
-                  <i class="fa fa-trash-o "></i>
-               </button>
+               <btn icon="trash-o" @onClick="removeCycle(item)"></btn>
             </div>
          </li>
       </ul>  
@@ -44,13 +41,15 @@ import { mapState, mapMutations } from 'vuex';
 import card from './card.vue'
 import editConfirmBtn from './editConfirmBtn.vue'
 import spanOrInput from './spanOrInput.vue'
+import btn from './btn.vue'
 
 export default {
    name: "CyclesList",
    components : {
       card,
       editConfirmBtn,
-      spanOrInput
+      spanOrInput,
+      btn,
    },
    data() {
       return {
@@ -102,8 +101,6 @@ export default {
    padding: 5px;
 }
 
-
-
 .list__item {
    display: flex;
    align-items: center;
@@ -131,7 +128,5 @@ export default {
 .list__span {
    cursor: pointer;
 }
-
-
 
 </style>  

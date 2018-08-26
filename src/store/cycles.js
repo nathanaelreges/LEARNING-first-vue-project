@@ -4,7 +4,14 @@ export default {
    namespaced: true,
    state: {
       list: [
-         { name: "Janeiro", id: 1},
+         { name: "Janeiro", id: 1,
+            list: [
+               {value: 10, name: 'Caroninha', id: 5},
+               {value: -10, name: 'Pão de Sal', id: 6},
+               {value: 140, name: 'Site do João', id: 7},
+               {value: -290, name: 'Carro zero', id: 8},
+            ]
+         },
          { name: "Fevereiro", id: 2},
          { name: "Março", id: 3},
          { name: "Abril", id: 4}
